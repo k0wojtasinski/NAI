@@ -1,4 +1,4 @@
-# https://www.codingame.com/ide/puzzle/the-descent
+# https://www.codingame.com/ide/puzzle/temperatures
 # Author: Kacper Wojtasinski
 
 import sys
