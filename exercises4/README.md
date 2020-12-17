@@ -22,14 +22,10 @@ Project created using:
 * Click 7.2
 
 ## Setup
-To run this application you will need Git installed on your computer. From command line:
-```
-# Clone this repository
-$ git clone https://github.com/https://github.com/PiotrPalczewski/NAI/tree/main/NAI_movie_recomendation
-
-# Go into the repository
-$ cd NAI_movie_recomendation
-```
+To run it, you need to install all the required packages:
+```pip install -r requirements.txt```
+Then just run it:
+```python NAI_recomendation_engine.py```
 
 ## Features
 * importing user movies scores by json

@@ -1,3 +1,4 @@
+# Application to get movie recommendations based on provided JSON data
 # Authors: Kacper Wojtasiński, Piotr Palczewski
 """
 Program silnika rekomendacji filmów na podstawie pliku JSON 
