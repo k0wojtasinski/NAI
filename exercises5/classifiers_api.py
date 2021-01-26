@@ -287,7 +287,6 @@ def validate(name, path, save_output):
 
     if save_output:
         for result in results:
-            safe_name = result.classifier.strip(".")
             result.to_json(f"{result.name}_{result.classifier}_result.json")
 
 
