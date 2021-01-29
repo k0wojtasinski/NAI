@@ -153,6 +153,34 @@ class Iris(TensorflowBasedNN):
         self.model.fit(self.train_data, self.train_labels, epochs=epochs)
 
 
+class BiggerIris(Iris):
+    """ class which extends Iris class with more Dense and Dropout layers """
+
+    def train(self, epochs=50):
+        """method to train BiggerIris model
+
+        Args:
+            epochs (int, optional): epochs to train model. Defaults to 50.
+        """
+        self.model = tf.keras.models.Sequential(
+            [
+                tf.keras.layers.Flatten(),
+                tf.keras.layers.Dense(512, activation=tf.nn.relu),
+                tf.keras.layers.Dropout(0.2),
+                tf.keras.layers.Dense(512, activation=tf.nn.relu),
+                tf.keras.layers.Dropout(0.2),
+                tf.keras.layers.Dense(10, activation=tf.nn.softmax),
+            ]
+        )
+        self.model.compile(
+            optimizer="adam",
+            loss="sparse_categorical_crossentropy",
+            metrics=["accuracy"],
+        )
+
+        self.model.fit(self.train_data, self.train_labels, epochs=epochs)
+
+
 class FashionMnist(TensorflowBasedNNWithImages):
     """Neural network for FashionMNIST dataset
     adapted from https://www.tensorflow.org/tutorials/keras/classification
@@ -199,6 +227,35 @@ class FashionMnist(TensorflowBasedNNWithImages):
         self.model = tf.keras.Sequential(
             [
                 tf.keras.layers.Flatten(input_shape=(28, 28)),
+                tf.keras.layers.Dense(128, activation="relu"),
+                tf.keras.layers.Dense(10),
+            ]
+        )
+
+        self.model.compile(
+            optimizer="adam",
+            loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+            metrics=["accuracy"],
+        )
+        self.model.fit(self.train_data, self.train_labels, epochs=epochs)
+
+
+class BiggerFashionMnist(FashionMnist):
+    """ class which extends FashionMnist class with more Dense layers """
+
+    def train(self, epochs=10):
+        """method to train BiggerFashionMnist model
+
+        Args:
+            epochs (int, optional): epochs to train model. Defaults to 10.
+        """
+        self.train_data = self.train_data / 255.0
+        self.test_data = self.test_data / 255.0
+
+        self.model = tf.keras.Sequential(
+            [
+                tf.keras.layers.Flatten(input_shape=(28, 28)),
+                tf.keras.layers.Dense(128, activation="relu"),
                 tf.keras.layers.Dense(128, activation="relu"),
                 tf.keras.layers.Dense(10),
             ]
@@ -278,6 +335,40 @@ class Cifar10(TensorflowBasedNNWithImages):
         self.model.fit(self.train_data, self.train_labels, epochs=epochs)
 
 
+class SimplerCifar10(Cifar10):
+    """ class which extends Cifar10 class with less Conv2D and MaxPooling2D layers """
+
+    def train(self, epochs=10):
+        """method to train SimplerCifar10 model
+
+        Args:
+            epochs (int, optional): epochs to train model. Defaults to 10.
+        """
+        self.train_data = self.train_data / 255.0
+        self.test_data = self.test_data / 255.0
+
+        self.model = tf.keras.Sequential(
+            [
+                tf.keras.layers.Conv2D(
+                    32, (3, 3), activation="relu", input_shape=(32, 32, 3)
+                ),
+                tf.keras.layers.MaxPooling2D((2, 2)),
+                tf.keras.layers.Conv2D(64, (3, 3), activation="relu"),
+                tf.keras.layers.Flatten(),
+                tf.keras.layers.Dense(64, activation="relu"),
+                tf.keras.layers.Dense(10),
+            ]
+        )
+
+        self.model.compile(
+            optimizer="adam",
+            loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+            metrics=["accuracy"],
+        )
+
+        self.model.fit(self.train_data, self.train_labels, epochs=epochs)
+
+
 class Imdb(TensorflowBasedNN):
     """Neural network for IMDB dataset
     adapted from https://builtin.com/data-science/how-build-neural-network-keras
@@ -319,6 +410,37 @@ class Imdb(TensorflowBasedNN):
 
     def train(self, epochs=2):
         """method to train IMDB model
+
+        Args:
+            epochs (int, optional): epochs to train model. Defaults to 2.
+        """
+        self.model = tf.keras.models.Sequential(
+            [
+                tf.keras.layers.Dense(
+                    50, activation="relu", input_shape=(self.NUM_WORDS,)
+                ),
+                tf.keras.layers.Dense(50, activation="relu"),
+                tf.keras.layers.Dropout(0.2, noise_shape=None, seed=None),
+                tf.keras.layers.Dense(50, activation="relu"),
+                tf.keras.layers.Dense(1, activation="sigmoid"),
+            ]
+        )
+        self.model.compile(
+            optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"]
+        )
+        self.model.fit(
+            self.train_data,
+            self.train_labels,
+            epochs=epochs,
+            batch_size=500,
+        )
+
+
+class BiggerImdb(Imdb):
+    """ class which extends Imdb class with extra dense and dropout layers """
+
+    def train(self, epochs=2):
+        """method to train BiggerImdb model
 
         Args:
             epochs (int, optional): epochs to train model. Defaults to 2.
