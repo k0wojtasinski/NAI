@@ -18,7 +18,10 @@ Then run unicorn with server:
 
 Application should be available at ```http://localhost:8000```
 
+Here is how it should look like:
+![looks](https://i.imgur.com/yn97qVx.png)
+
 Please note that it might take about a minute for the results  
 
 Here is example output, based on famous Guernica painting made by Pablo Picasso:  
-
+![result](https://i.imgur.com/k83XHm2.jpg)
