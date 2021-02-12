@@ -1,0 +1,68 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <title>Make Art</title>
+</head>
+
+<body class="bg-light">
+    <style>
+        .card {
+            padding:16px;
+            margin-top: 16px;
+        }
+        .btn-primary {
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+    </style>
+    <nav class="navbar bg-primary navbar-dark">
+        <span class="navbar-brand">Make Art</span>
+    </nav>
+    <div class="container">
+        <div class="card">
+            <h2 class="card-title">
+                Make Art
+            </h2>
+                This application uses TF-HUB model arbitrary-image-stylization-v1-256 to create art based on two provided images.
+                Please note that it might take about a minute to process images
+        </div>
+        <div class="card">
+            <h2 class="card-title">
+                Choose image to transform
+            </h2>
+            <input type="file" accept="image" id="upload_file1">
+        </div>
+        <div class="card">
+            <h2 class="card-title">
+                Choose image to apply style from
+            </h2>
+            <input type="file" accept="image" id="upload_file2">
+        </div>
+        <div class="card">
+            <button class="btn btn-success" type="button" onclick="processImage()">
+                <span class="spinner-border spinner-border-sm" role="status" style="display: none;"></span>
+                <span>Process image</span>
+            </button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        let uploadFile1 = document.getElementById('upload_file1');
+        let uploadFile2 = document.getElementById('upload_file2');
+
+        function processImage() {
+            let formData = new FormData();
+            let spinner = document.getElementsByClassName('spinner-border')[0];
+            formData.append("file", uploadFile1.files[0]);
+            formData.append("file_second", uploadFile2.files[0]);
+            spinner.style.display = 'block';
+            fetch('/process_image/', { method: 'POST', body: formData }).then( res => res.blob() )
+            .then( blob => {
+            var file = window.URL.createObjectURL(blob);
+            window.location.assign(file);
+        });
+        }
+    </script>
+</body>
+
+</html>
